@@ -3,10 +3,12 @@
 
 import * as React from 'react'
 
+const formatDebugValue = ({query, state}) =>
+  `query: "${query}", state: ${state}`
+
 function useMedia(query, initialState = false) {
   const [state, setState] = React.useState(initialState)
-  // 🐨 call React.useDebugValue here.
-  // 💰 here's the formatted label I use: `\`${query}\` => ${state}`
+  React.useDebugValue({query, state}, formatDebugValue)
 
   React.useEffect(() => {
     let mounted = true
@@ -35,6 +37,8 @@ function Box() {
   const isMedium = useMedia('(max-width: 999px) and (min-width: 700px)')
   const isSmall = useMedia('(max-width: 699px)')
   const color = isBig ? 'green' : isMedium ? 'yellow' : isSmall ? 'red' : null
+
+  console.log('render', color)
 
   return <div style={{width: 200, height: 200, backgroundColor: color}} />
 }
